@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cctype>
 #include <cstdlib>
-#include <iostream>
 
 using namespace std;
 

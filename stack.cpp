@@ -3,6 +3,9 @@
 //
 
 #include "stack.h"
+#include <cstdlib>
+#include <stdexcept>
+#include <new>
 #include <iostream>
 
 using namespace std;
@@ -21,31 +24,37 @@ Stack::~Stack() {
     delete[] stack;
 }
 
-double Stack::top() {
-    if(isEmpty()){
-        cout << "Stack is empty\n";
-        exit(EXIT_FAILURE);
+double Stack::top() throw(underflow_error) {
+    if (isEmpty()) {
+        ostringstream oErr;
+        oErr << __FILE__ << ":" << __LINE__ << ":ERROR: underflow_error ";
+        oErr << "sp= " << this->sp << " size= " << size << endl;
+        throw underflow_error(oErr.str());
     } else return stack[sp];
 }
 
-void Stack::push(double v) {
-    if(isFull()){
-        cout << "Stack Overflow\n";
-        exit(EXIT_FAILURE);
+void Stack::push(double v) throw(overflow_error) {
+    if (isFull()) {
+        ostringstream oErr;
+        oErr << __FILE__ << ":" << __LINE__ << ":ERROR: overflow_error ";
+        oErr << "sp= " << this->sp << " size= " << size << endl;
+        throw overflow_error(oErr.str());
     } else stack[++sp] = v;
 }
 
-void Stack::pop() {
-    if(isEmpty()){
-        cout << "Stack is empty\n";
-        exit(EXIT_FAILURE);
-    }else sp--;
+void Stack::pop() throw(underflow_error) {
+    if (isEmpty()) {
+        ostringstream oErr;
+        oErr << __FILE__ << ":" << __LINE__ << ":ERROR: underflow_error ";
+        oErr << "sp= " << this->sp << " size= " << size << endl;
+        throw underflow_error(oErr.str());
+    } else sp--;
 }
 
-bool Stack::isFull() {
-    return sp == size -1;
+bool Stack::isFull() const {
+    return sp == size - 1;
 }
 
-bool Stack::isEmpty() {
+bool Stack::isEmpty() const {
     return sp == -1;
 }

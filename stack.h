@@ -6,25 +6,37 @@
 #define TASCHENRECHNER_STACK_H
 
 
-#include <c++/4.8.3/cstdio>
+#include <cstdio>
+#include <cstdlib>
+#include <sstream>
+#include <stdexcept>
+#include <new>
+#include <iostream>
+
+using namespace std;
 
 class Stack {
 private:
-    double* stack{};
+    double *stack{};
     size_t size{};
     size_t sp{};
 
 public:
-    explicit Stack(size_t size=100);
-    Stack(const Stack& other);
+    explicit Stack(size_t size = 100);
+
+    Stack(const Stack &other);
+
     ~Stack();
 
-    double top();
-    void push(double v);
-    void pop();
+    double top() throw(underflow_error);
 
-    bool isFull();
-    bool isEmpty();
+    void push(double v) throw(overflow_error);
+
+    void pop() throw(underflow_error);
+
+    bool isFull() const;
+
+    bool isEmpty() const;
 };
 
 
